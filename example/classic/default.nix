@@ -3,6 +3,8 @@
 }:
 
 import ../../. {
-  inherit pkgs;
-  configuration = ./example.nix;
+  example = {
+    inherit pkgs;
+    modules = [ ./example.nix ];
+  };
 }
