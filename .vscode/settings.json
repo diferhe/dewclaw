@@ -1,0 +1,40 @@
+{
+    "nix.formatterPath": [
+        "nix",
+        "fmt",
+        "--",
+        "-"
+    ],
+    "nix.enableLanguageServer": true, // using flakes with `formatter = pkgs.alejandra;`
+    "nix.serverSettings": {
+        "nixd": {
+            "formatting": {
+                "command": [
+                    "nix",
+                    "fmt",
+                    "--",
+                    "-"
+                ]
+            },
+            "nixpkgs": {
+                "expr": "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }"
+                // "expr": "import <nixpkgs> { }"
+            },
+            "options": {
+                // By default, this entriy will be read from `import <nixpkgs> { }`
+                // You can write arbitary nix expression here, to produce valid "options" declaration result.
+                // Tip: for flake-based configuration, utilize `builtins.getFlake`
+                "flake-parts": {
+                    "expr": "(builtins.getFlake (builtins.toString ./.)).debug.options"
+                },
+                "dewclaw": {
+                    "expr": "(builtins.getFlake (builtins.toString ./.)).currentSystem.openwrtConfigurations.example.options"
+                }
+            }
+        },
+    },
+    "nix.serverPath": "nixd",
+    "editor.formatOnSave": true,
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font Mono",
+    "editor.fontFamily": "FiraCode Nerd Font Mono"
+}
