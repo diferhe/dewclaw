@@ -55,6 +55,7 @@
               pkgs.nixfmt-rfc-style
               pkgs.shfmt
               pkgs.treefmt
+              pkgs.nixd
             ];
           };
           openwrtConfigurations = self.lib.mkOpenwrtConfigurations pkgs {
