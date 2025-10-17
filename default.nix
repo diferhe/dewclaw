@@ -3,7 +3,7 @@
     config = { };
     overlays = [ ];
   },
-  configuration,
+  openwrtConfigurations,
 }:
 
 let
@@ -11,7 +11,7 @@ let
 
   evaluated = lib.evalModules {
     modules = [
-      ./openwrt
+      ./openwrt/legacy.nix
       configuration
     ];
     specialArgs = {
