@@ -1,10 +1,21 @@
 {
   pkgs ? import <nixpkgs> { },
 }:
-
-import ../../. {
-  example = {
+let
+  dewclawLib = import ./lib.nix { inherit (pkgs) lib; };
+  openwrtConfigurations = dewclawLib.mkOpenwrtConfigurations {
     inherit pkgs;
-    modules = [ ./example.nix ];
+    configurations = {
+      example = {
+        modules = [
+          ./example.nix
+        ];
+      };
+    };
   };
+in
+with dewclawLib;
+mkDewclawEnv {
+  inherit pkgs;
+  inherit openwrtConfigurations;
 }

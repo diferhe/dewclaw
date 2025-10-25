@@ -3,7 +3,7 @@
     config = { };
     overlays = [ ];
   },
-  openwrtConfigurations,
+  configuration,
 }:
 
 let

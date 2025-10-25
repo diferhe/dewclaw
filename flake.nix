@@ -45,9 +45,12 @@
         rec {
           formatter = pkgs.nixfmt-rfc-style;
           packages = {
-            dewclaw-env = pkgs.callPackage ./default.nix { inherit openwrtConfigurations; };
+            dewclaw-env = self.lib.mkDewclawEnv { inherit pkgs openwrtConfigurations; };
+            dewclaw-env-legacy = pkgs.callPackage ./default.nix {
+              configuration = ./example/classic/example-legacy.nix;
+            };
             dewclaw-book = pkgs.callPackage ./doc { };
-            default = self.packages.x86_64-linux.dewclaw-env;
+            default = self.packages.x86_64-linux.dewclaw-env-legacy;
           };
 
           devShells.default = pkgs.mkShell {
@@ -58,16 +61,19 @@
               pkgs.nixd
             ];
           };
-          openwrtConfigurations = self.lib.mkOpenwrtConfigurations pkgs {
-            example = {
-              modules = [
-                ./example/test.nix
-              ];
-            };
-            example2 = {
-              modules = [
-                ./example/test.nix
-              ];
+          openwrtConfigurations = self.lib.mkOpenwrtConfigurations {
+            inherit pkgs;
+            configurations = {
+              example = {
+                modules = [
+                  ./example/test.nix
+                ];
+              };
+              example2 = {
+                modules = [
+                  ./example/test.nix
+                ];
+              };
             };
           };
         };

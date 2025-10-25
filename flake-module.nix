@@ -15,41 +15,41 @@ let
     mkTransposedPerSystemModule
     mkSubmoduleOptions
     ;
-in
-mkTransposedPerSystemModule {
-  name = "openwrtConfigurations";
-  option = mkOption {
-    type = types.lazyAttrsOf types.raw;
-    default = { };
-    description = "OpenWrt (dewclaw) configurations to build.";
-    example = literalExpression ''
-      {
-        example = inputs.dewclaw.lib.openwrtConfiguration {
-          inherit pkgs
-          modules = [
-            ./example/classic/example.nix
-          ];
-        };
-      }
-    '';
+  openwrtConfigurationsModule = mkTransposedPerSystemModule {
+    name = "openwrtConfigurations";
+    option = mkOption {
+      type = types.lazyAttrsOf types.raw;
+      default = { };
+      description = "OpenWrt (dewclaw) configurations to build.";
+      example = literalExpression ''
+        {
+          example = inputs.dewclaw.lib.openwrtConfiguration {
+            inherit pkgs
+            modules = [
+              ./example/classic/example.nix
+            ];
+          };
+        }
+      '';
+    };
+    file = moduleLocation;
   };
-  file = moduleLocation;
+in
+lib.recursiveUpdate openwrtConfigurationsModule {
+  options = {
+    flake = mkSubmoduleOptions {
+      openwrtModules = mkOption {
+        type = types.lazyAttrsOf types.deferredModule;
+        default = { };
+        apply = mapAttrs (
+          name: mod: {
+            _class = "openwrt";
+            _file = "${toString moduleLocation}#openwrtModules.${name}";
+            imports = [ mod ];
+          }
+        );
+        description = "OpenWrt (dewclaw) modules.";
+      };
+    };
+  };
 }
-# // {
-#   options = {
-#     flake = mkSubmoduleOptions {
-#       openwrtModules = mkOption {
-#         type = types.lazyAttrsOf types.deferredModule;
-#         default = { };
-#         apply = mapAttrs (
-#           name: mod: {
-#             _class = "openwrt";
-#             _file = "${toString moduleLocation}#openwrtModules.${name}";
-#             imports = [ mod ];
-#           }
-#         );
-#         description = "OpenWrt (dewclaw) modules.";
-#       };
-#     };
-#   };
-# }

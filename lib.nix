@@ -3,7 +3,6 @@ rec {
   openwrtConfiguration =
     {
       name ? "unnamed",
-      check ? true,
       extraSpecialArgs ? { },
       lib ? pkgs.lib,
       modules ? [ ],
@@ -26,13 +25,19 @@ rec {
     );
 
   mkOpenwrtConfigurations =
-    pkgs: configurations:
+    {
+      pkgs,
+      configurations,
+    }:
     lib.mapAttrs (name: conf: openwrtConfiguration ({ inherit name pkgs; } // conf)) configurations;
 
   mkDewclawEnv =
-    pkgs: configurations:
+    {
+      pkgs,
+      openwrtConfigurations,
+    }:
     let
-      targets = lib.mapAttrs (_: conf: conf.deployScript) configurations;
+      targets = lib.mapAttrs (_: conf: conf.deployScript) openwrtConfigurations;
     in
     pkgs.buildEnv {
       name = "dewclaw-env";
