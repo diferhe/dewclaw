@@ -71,7 +71,7 @@
               };
               example2 = {
                 modules = [
-                  ./example/test.nix
+                  ./example/classic/example.nix
                 ];
               };
             };

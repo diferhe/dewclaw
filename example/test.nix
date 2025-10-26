@@ -42,7 +42,6 @@
   etc."dropbear/authorized_keys".text = ''
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGQEKlJPpUkR+NQHObd1CWWM7ItbkFLk80PyK+b+2EN example@key
   '';
-
   uci.settings = {
     dropbear.dropbear = [
       {
@@ -53,13 +52,11 @@
     ];
 
     network = {
-      device = [
-        {
-          name = "br-lan";
-          ports = "eth0";
-          type = "bridge";
-        }
-      ];
+      device.br_lan = {
+        name = "br-lan";
+        ports = "eth0";
+        type = "bridge";
+      };
 
       globals = [ { ula_prefix = "fd10:155d:7ef5::/48"; } ];
 
@@ -67,7 +64,6 @@
         device = "br-lan";
         proto = "dhcp";
       };
-
       interface.loopback = {
         device = "lo";
         ipaddr = "127.0.0.1";
@@ -111,4 +107,5 @@
       };
     };
   };
+
 }

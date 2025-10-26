@@ -160,7 +160,7 @@ in
   imports = [
     ./etc.nix
     ./packages.nix
-    ./uci.nix
+    ./uci
     ./users.nix
     ./providers.nix
     ./services

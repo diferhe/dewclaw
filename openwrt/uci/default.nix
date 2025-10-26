@@ -6,7 +6,7 @@
 }:
 
 let
-  cfg = config.uci;
+  cfg = lib.filterAttrsRecursive (name: value: value != null) config.uci;
 
   formatConfig =
     nix:
@@ -93,6 +93,7 @@ in
   imports = [
     (lib.mkRenamedOptionModule [ "uci" "sopsSecrets" ] [ "sopsSecrets" ])
     (lib.mkRenamedOptionModule [ "uci" "secretsCommand" ] [ "secretsCommand" ])
+    ./network
   ];
 
   options.uci = {
