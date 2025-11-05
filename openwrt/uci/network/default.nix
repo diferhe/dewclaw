@@ -1,6 +1,6 @@
 {
   imports = [
     ./interface.nix
-    # ./device.nix
+    ./device.nix
   ];
 }
