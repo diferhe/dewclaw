@@ -110,7 +110,7 @@ let
 
           table = mkOption {
             type = types.nullOr types.str;
-            default = "10";
+            default = null;
             example = "100";
             description = ''
               When type is set to `vrf`, sets the routing table name or number.
