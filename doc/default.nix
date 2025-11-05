@@ -7,7 +7,7 @@
 
 let
   evaluated = pkgs.lib.evalModules {
-    modules = [ ../openwrt ];
+    modules = [ ../openwrt/legacy.nix ];
     specialArgs = {
       inherit pkgs;
     };
